@@ -124,20 +124,39 @@ class Distance {
 
     public void setM(int m) {
         this.m = m;
+        if(m > 1000) {
+            this.km += m/1000;
+            this.m = 0;
+        }
     }
 
 
     public void setCm(int cm) {
         this.cm = cm;
+        if(cm > 100) {
+            this.m += cm/100;
+            this.cm = 0;
+        }
     }
 
-    public void addDistance(String s1, String s2){
-        if(s1 == "km" && s2 == "m"){
-            System.out.println((this.km*1000) + (this.m));
+    public Distance addDistance(Distance d){
+        Distance temp = new Distance();
+
+        temp.km = km + d.km;
+        temp.m = m + d.m;
+        temp.cm = cm + d.cm;
+
+        if(temp.cm > 100) {
+            temp.m += temp.cm%100;
         }
-        if(s1 == "km" && s2 == "cm"){
-            System.out.println((this.km * 100000)+ (this.cm));
+        if(temp.m > 1000){
+            temp.km += temp.m %1000;
         }
+        return temp;
+    }
+
+    public void showDistance() {
+        System.out.println(this.km + " km "+this.m+" m "+this.cm+ " cm ");
     }
 }
 
@@ -166,5 +185,17 @@ public class Assignment7 {
         e1.setName("Tushar");
         e1.setSalary(29500);
         e1.showDetails();
+
+        Distance d1 = new Distance();
+        d1.setKm(9);
+        d1.setM(2000);
+        d1.setCm(600);
+        Distance d2 = new Distance();
+        d2.setKm(4);
+        d2.setM(4000);
+        d2.setCm(400);
+
+        Distance d3 = d1.addDistance(d2);
+        d3.showDistance();
     }
 }
